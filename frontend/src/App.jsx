@@ -308,7 +308,7 @@ function NavBar({ page, setPage }) {
   return (
     <>
       <nav className="nav">
-        <div className="nav-logo"><span>[ </span>/triage<span> ]</span></div>
+        <div className="nav-logo"><span>[ </span>/IntentIQ<span> ]</span></div>
         <div className="nav-center">
           {tabs.map(([id,label]) => (
             <button key={id} className={`nav-tab${page===id?" active":""}`} onClick={()=>go(id)}>{label}</button>
@@ -744,7 +744,7 @@ function AboutPage() {
         <div className="eyebrow">Portfolio · Applied NLP</div>
         <h2 className="about-title">Built for <em>scale</em></h2>
         <p className="about-p">
-          TriageAI demonstrates end-to-end applied NLP system design — from model selection and pipeline
+          IntentIQ demonstrates end-to-end applied NLP system design — from model selection and pipeline
           architecture to REST API design, deterministic rule engines, and automated reply generation. Ready
           to operate inside a larger microservices ecosystem with a clean, contract-driven interface.
         </p>
