@@ -15,9 +15,18 @@ class UserInput(BaseModel):
 
 @router.post("/predict")
 def predict(data: UserInput):
+
     text = data.text
 
-    result = analyze(text)
+    try:
+        result = analyze(text)
+
+    except Exception as e:
+
+        return {
+            "error": "Analysis failed",
+            "details": str(e)
+        }
 
     routing = route(
         result["intent"],
@@ -42,23 +51,20 @@ def predict(data: UserInput):
         reply = generate_reply(
 
             text,
-
             result["intent"],
-
             result["sentiment"],
-
             routing["priority"]
 
         )
 
-    elif mode=="HUMAN_REVIEW":
+    elif mode == "HUMAN_REVIEW":
 
         reply = (
             "Thank you for contacting us. "
             "Your request requires manual review by a specialist."
         )
 
-    elif mode=="CRITICAL_ESCALATION":
+    elif mode == "CRITICAL_ESCALATION":
 
         reply = (
             "Your concern has been escalated immediately to our support team."
@@ -71,35 +77,23 @@ def predict(data: UserInput):
         "CRITICAL_ESCALATION"
 
     ]:
-        print("ENTERED ALERT BLOCK")
-    
+
         alert = owner_alert(
 
             text,
-
             result["intent"],
-
             result["confidence"]
 
         )
-    print("MODE:", mode)
-    print("REPLY:", reply)
-    print("ALERT:", alert)
+
     return {
 
         "intent": result["intent"],
-
         "confidence": result["confidence"],
-
         "sentiment": result["sentiment"],
-
         "priority": routing["priority"],
-
         "team": routing["team"],
-
         "mode": mode,
-
         "owner_alert": alert,
-
         "reply": reply
     }
